@@ -1,65 +1,29 @@
-require('dotenv').config();
-
 const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const { users } = require('./src/db');
+const bodyParser = require('body-parser');
+
+const { getAllContainers, getContainerInfo, startContainer, stopContainer, getAllImages } = require('./src/containers/helpers/api');
+const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json())
 
-const PORT = process.env.PORT || 3000;
-const SECRET_KEY = process.env.SECRET_KEY
+const PORT = process.env.PORT || 3000
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization;
+// Auth
+app.post('/login', loginUser);
+app.post('/verifyToken', verifyToken, verifyTokenUser);
 
-  if (!token) {
-    return res.status(403).json({ error: 'Token no proporcionado' });
-  }
+// Para todas estas consultas se hace uso del midleware
+app.use(verifyToken);
+// Containers
+app.get('/images', getAllImages);
 
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: 'Token inválido' });
-    }
-
-    req.user = decoded;
-    next();
-  });
-};
-
-app.use(bodyParser.json());
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Busca el usuario en la simulación de base de datos
-  const user = users.find((user) => user.username === username);
-
-  if (!user) {
-    console.log("USUARIO NO ENCONTRADO")
-    return res.status(401).json({ error: 'Usuario no encontrado' });
-  }
-
-  // Compara la contraseña proporcionada con la almacenada en la simulación de base de datos
-  bcrypt.compare(password, user.password, (err, result) => {
-    if (result) {
-      // Genera un token JWT
-      const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-
-      res.json({ message: 'Inicio de sesión exitoso', token });
-    } else {
-      console.log("CONTRASEÑA INCORRECTA")
-      res.status(401).json({ error: 'Contraseña incorrecta' });
-    }
-  });
-});
-
-app.post('/verifyToken', verifyToken, (req, res) => {
-  res.json({ valid: true, user: req.user });
-});
+app.get('/containers', getAllContainers);
+app.get('/containers/:id', getContainerInfo);
+app.post('/containers/:id/start', startContainer);
+app.post('/containers/:id/stop', stopContainer);
 
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en http://localhost:${PORT}`);
