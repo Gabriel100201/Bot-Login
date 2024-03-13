@@ -39,11 +39,18 @@ const getContainerInfo = async (req, res) => {
 
 // Iniciar un contenedor
 const startContainer = async (req, res) => {
-  const containerId = req.params.id;
+  const imageId = req.params.id;
   try {
-    const container = docker.getContainer(containerId);
+    const container = await docker.createContainer({
+      Image: imageId,
+      Tty: true,
+    });
+
     await container.start();
-    res.json({ message: 'Contenedor iniciado con éxito' });
+    const containerInfo = await container.inspect();
+    const containerId = containerInfo.Id
+
+    res.json({ message: 'Contenedor iniciado con éxito' , containerId});
   } catch (error) {
     handleErrors(res, 'Error al iniciar el contenedor');
   }
