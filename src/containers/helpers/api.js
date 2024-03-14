@@ -22,10 +22,11 @@ const getAllImages = async (req, res) => {
 const getContainerInfo = async (req, res) => {
   const token = req.headers['authorization'];
   const userReq = users.find((user) => user.activeToken == token)
-  const containerId = userReq.container
+  const imageId = userReq.bot
+  const image = bots.find((bot) => bot.id == imageId)
+  const imageStatus = image.status
   try {
-    const container = await docker.getContainer(containerId).inspect();
-    res.json(container);
+    res.json(imageStatus);
   } catch (error) {
     handleErrors(res, 'Contenedor no encontrado', 404);
   }

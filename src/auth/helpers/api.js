@@ -20,7 +20,6 @@ const loginUser = async (req, res) => {
   const bot = bots.find((bot) => user.bot === bot.id);
 
   if (userIndex < 0) {
-    console.log("USUARIO NO ENCONTRADO")
     return handleErrors(res, 'Usuario no encontrado', 401);
   }
 
@@ -48,7 +47,6 @@ const verifyTokenUser = (req, res) => {
 // Middleware para verificar el token
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
-
   if (!token) {
     return handleErrors(res, 'Token no proporcionado', 401);
   }

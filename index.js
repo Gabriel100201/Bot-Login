@@ -21,9 +21,9 @@ app.use(verifyToken);
 // Containers
 app.get('/images', getAllImages);
 
-app.get('/containers/:id', getContainerInfo);
-app.post('/containers/:id/start', startContainer);
-app.post('/containers/:id/stop', stopContainer);
+app.post('/containers/getInfo', getContainerInfo);
+app.post('/containers/start', startContainer);
+app.post('/containers/stop', stopContainer);
 
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en http://localhost:${PORT}`);
