@@ -20,7 +20,9 @@ const getAllImages = async (req, res) => {
 
 // Obtener información sobre un contenedor específico
 const getContainerInfo = async (req, res) => {
-  const containerId = req.params.id;
+  const token = req.headers['authorization'];
+  const userReq = users.find((user) => user.activeToken == token)
+  const containerId = userReq.container
   try {
     const container = await docker.getContainer(containerId).inspect();
     res.json(container);
@@ -31,7 +33,9 @@ const getContainerInfo = async (req, res) => {
 
 // Iniciar un contenedor
 const startContainer = async (req, res) => {
-  const imageId = req.params.id;
+  const token = req.headers['authorization'];
+  const userReq = users.find((user) => user.activeToken == token)
+  const imageId = userReq.bot
   try {
     const container = await docker.createContainer({
       Image: imageId,
@@ -40,21 +44,17 @@ const startContainer = async (req, res) => {
 
     await container.start();
     const containerInfo = await container.inspect();
-    console.log("CONTAINER: ", containerInfo)
     const containerId = containerInfo.Id
 
     // Simulación de busqueda en la base de datos
     bots.forEach(bot => {
-      console.log(bot.id)
-      console.log(imageId)
       if (bot.id == imageId) {
         bot.container = containerId;
         bot.status = true;
-        console.log(bot)
       }
     });
 
-    res.json({ message: 'Contenedor iniciado con éxito' , containerId});
+    res.json({ message: 'Contenedor iniciado con éxito' });
   } catch (error) {
     handleErrors(res, 'Error al iniciar el contenedor');
   }
@@ -62,11 +62,12 @@ const startContainer = async (req, res) => {
 
 // Detener un contenedor
 const stopContainer = async (req, res) => {
-  const imageId = req.params.id;
+  const token = req.headers['authorization'];
+  const userReq = users.find((user) => user.activeToken == token)
+  const imageId = userReq.bot
 
-  const user = users.find((user) => user.bot == imageId)
-  let containerId = bots.find((bot) => bot.id == user.bot)
-  containerId = containerId.container
+  const botToStop = bots.find((bot) => bot.id == imageId)
+  const containerId = botToStop.container
   try {
     const container = docker.getContainer(containerId);
     await container.kill();

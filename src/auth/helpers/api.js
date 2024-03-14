@@ -31,14 +31,12 @@ const loginUser = async (req, res) => {
       // Se genera el token
       const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
       users[userIndex].activeToken = token
-      console.log(user)
-      res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { username, dockerId: bot.id, status: bot.status } });
+      // Ahora solo retorna el token
+      res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { userName: user.username } });
     } else {
-      console.log("CONTRASEÑA INCORRECTA")
       handleErrors(res, 'Contraseña incorrecta', 401);
     }
   } catch (error) {
-    console.log(error)
     handleErrors(res, 'Error al comparar contraseñas', 500);
   }
 };
@@ -57,7 +55,6 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
-      console.log(err)
       return handleErrors(res, 'Token no válido', 401);
     }
 
