@@ -14,10 +14,10 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
-  const userIndex = users.findIndex((user) => user.username === username);
+  // Encuentra el usuario
+  /* const userIndex = users.findIndex((user) => user.username === username);
   if (userIndex < 0) return
-  const user = users[userIndex]
-  const bot = bots.find((bot) => user.bot === bot.id);
+  const user = users[userIndex] */
 
   if (userIndex < 0) {
     return handleErrors(res, 'Usuario no encontrado', 401);
