@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { users } = require('../../mock/users');
-
+const { bots } = require('../../mock/bots');
 const SECRET_KEY = process.env.SECRET_KEY
 
 
@@ -14,9 +14,12 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
-  const user = users.find((user) => user.username === username);
+  const userIndex = users.findIndex((user) => user.username === username);
+  if (userIndex < 0) return
+  const user = users[userIndex]
+  const bot = bots.find((bot) => user.bot === bot.id);
 
-  if (!user) {
+  if (userIndex < 0) {
     console.log("USUARIO NO ENCONTRADO")
     return handleErrors(res, 'Usuario no encontrado', 401);
   }
@@ -27,8 +30,9 @@ const loginUser = async (req, res) => {
     if (passwordMatch) {
       // Se genera el token
       const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-      const dockerId = user.bot
-      res.json({ message: 'Inicio de sesión exitoso', token, dockerId });
+      users[userIndex].activeToken = token
+      console.log(user)
+      res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { username, dockerId: bot.id, status: bot.status } });
     } else {
       console.log("CONTRASEÑA INCORRECTA")
       handleErrors(res, 'Contraseña incorrecta', 401);

@@ -1,8 +1,10 @@
 const bots = [
   {
-    "id": "13fd71af6220",
+    "id": "2b590f7c476f",
     "name": "bot-base",
-    "container": "",
+    "container": null,
     "status": false
   }
 ]
+
+module.exports = { bots }
