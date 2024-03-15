@@ -1,37 +1,29 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users } = require('../../mock/users');
-const { bots } = require('../../mock/bots');
+const { userExist, getUserByName } = require('../../db');
 const SECRET_KEY = process.env.SECRET_KEY
 
-
-
 const handleErrors = (res, errorMessage, statusCode = 500) => {
+  console.log(errorMessage)
   res.status(statusCode).json({ error: errorMessage });
 };
 
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
-  // Encuentra el usuario
-  /* const userIndex = users.findIndex((user) => user.username === username);
-  if (userIndex < 0) return
-  const user = users[userIndex] */
-
-  if (userIndex < 0) {
-    return handleErrors(res, 'Usuario no encontrado', 401);
-  }
-
+  if (!userExist({ userName: username })) return handleErrors(res, 'Usuario no encontrado', 401);
+  let userInfo = await getUserByName({ userName: username })
+  userInfo = userInfo.dataValues
   try {
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log(bcrypt.hash("43280743"))
+    const passwordMatch = await bcrypt.compare(password, userInfo.password);
 
     if (passwordMatch) {
-      // Se genera el token
-      const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-      users[userIndex].activeToken = token
-      // Ahora solo retorna el token
-      res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { userName: user.username } });
+      const token = jwt.sign({ userId: userInfo.id, username: userInfo.username }, SECRET_KEY, { expiresIn: '1h' });
+      updateUserTokenasync({ userInfo: userInfo.id, newActiveToken: token })
+
+      res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { userName: userInfo.userName } });
     } else {
       handleErrors(res, 'Contraseña incorrecta', 401);
     }
