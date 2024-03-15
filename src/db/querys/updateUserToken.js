@@ -1,4 +1,4 @@
-const { User } = require('../models/user');
+const { User } = require('../references/usersXimages');
 
 const updateUserToken = async ({ userId, newActiveToken }) => {
   try {

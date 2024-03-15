@@ -2,20 +2,19 @@ const { createUser } = require('./querys/createUser');
 const { getUserByName } = require('./querys/getUserByName');
 const { getUsers } = require('./querys/getUsers');
 const { userExist } = require('./querys/userExist');
+const { updateUserToken } = require('./querys/updateUserToken');
+const { getImageByToken } = require('./querys/getImageByToken');
 
-/* createUser({ userName: "Pato", password: "1231231123", activeToken: "ae2321w1231sada", botAccess: "patopato" }) */
-/* const users = getUsers() */
-
-/* const getUser = async () => {
-  const name = await getUserByName({ userName: "Pato" })
-  console.log(name.dataValues)
+const fn = async () => {
+  const image = await getImageByToken({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkc2FzZGFzZGEiLCJpYXQiOjE3MTA1Mzc5NjksImV4cCI6MTcxMDU0MTU2OX0.Tl4yryM2aQ7sxTogjhLjimE6jiD75GyjeVC7ilDoyvM" })
+  console.log(image)
 }
-
-getUser() */
-
+fn()
 module.exports = {
   createUser,
   getUsers,
   userExist,
-  getUserByName
+  getUserByName,
+  updateUserToken,
+  getImageByToken
 }

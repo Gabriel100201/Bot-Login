@@ -1,5 +1,5 @@
 const { uid } = require('uid');
-const { User } = require('../models/user');
+const { User } = require('../references/usersXimages');
 
 const createUser = async (userData) => {
   const id = uid(8);

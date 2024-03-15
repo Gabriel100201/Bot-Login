@@ -1,7 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { userExist, getUserByName } = require('../../db');
+const { userExist, getUserByName, updateUserToken } = require('../../db');
 const SECRET_KEY = process.env.SECRET_KEY
 
 const handleErrors = (res, errorMessage, statusCode = 500) => {
@@ -15,19 +15,20 @@ const loginUser = async (req, res) => {
   if (!userExist({ userName: username })) return handleErrors(res, 'Usuario no encontrado', 401);
   let userInfo = await getUserByName({ userName: username })
   userInfo = userInfo.dataValues
+  
   try {
-    console.log(bcrypt.hash("43280743"))
     const passwordMatch = await bcrypt.compare(password, userInfo.password);
 
     if (passwordMatch) {
       const token = jwt.sign({ userId: userInfo.id, username: userInfo.username }, SECRET_KEY, { expiresIn: '1h' });
-      updateUserTokenasync({ userInfo: userInfo.id, newActiveToken: token })
+      updateUserToken({ userId: userInfo.id, newActiveToken: token })
 
       res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { userName: userInfo.userName } });
     } else {
       handleErrors(res, 'Contraseña incorrecta', 401);
     }
   } catch (error) {
+    console.log(error)
     handleErrors(res, 'Error al comparar contraseñas', 500);
   }
 };

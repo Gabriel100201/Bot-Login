@@ -1,4 +1,4 @@
-const { User } = require('../models/user');
+const { User } = require('../references/usersXimages');
 
 const getUserByName = async ({ userName }) => {
   try {

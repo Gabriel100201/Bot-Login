@@ -2,6 +2,7 @@ const Docker = require('dockerode');
 const docker = new Docker();
 const { bots } = require('../../mock/bots');
 const { users } = require('../../mock/users');
+const { getImageByToken } = require('../../db/index');
 
 // Función auxiliar para manejar errores
 const handleErrors = (res, errorMessage, statusCode = 500) => {
@@ -21,10 +22,8 @@ const getAllImages = async (req, res) => {
 // Obtener información sobre un contenedor específico
 const getContainerInfo = async (req, res) => {
   const token = req.headers['authorization'];
-  const userReq = users.find((user) => user.activeToken == token)
-  const imageId = userReq.bot
-  const image = bots.find((bot) => bot.id == imageId)
-  const imageStatus = image.status
+  const image = getImageByToken({ token })
+  const imageStatus = image.dataValues.status
   try {
     res.json(imageStatus);
   } catch (error) {
