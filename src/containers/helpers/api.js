@@ -1,7 +1,5 @@
 const Docker = require('dockerode');
 const docker = new Docker();
-const { bots } = require('../../mock/bots');
-const { users } = require('../../mock/users');
 const { getImageByToken, setBotStatusByImageId } = require('../../db/index');
 
 // Función auxiliar para manejar errores
