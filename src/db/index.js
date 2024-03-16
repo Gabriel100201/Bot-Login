@@ -4,17 +4,20 @@ const { getUsers } = require('./querys/getUsers');
 const { userExist } = require('./querys/userExist');
 const { updateUserToken } = require('./querys/updateUserToken');
 const { getImageByToken } = require('./querys/getImageByToken');
+const { setBotStatusByImageId } = require('./querys/setBotStatusByImageId');
 
-const fn = async () => {
-  const image = await getImageByToken({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkc2FzZGFzZGEiLCJpYXQiOjE3MTA1Mzc5NjksImV4cCI6MTcxMDU0MTU2OX0.Tl4yryM2aQ7sxTogjhLjimE6jiD75GyjeVC7ilDoyvM" })
+/* const fn = async () => {
+  const image = await getImageByToken({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkc2FzZGFzZGEiLCJpYXQiOjE3MTA2MjY4MjcsImV4cCI6MTcxMDYzMDQyN30.FRpjMmvbKkVYBqr7wDhzYHKqnbsO08ejQ4FQSPSdkdw" })
   console.log(image)
 }
-fn()
+fn() */
+
 module.exports = {
   createUser,
   getUsers,
   userExist,
   getUserByName,
   updateUserToken,
-  getImageByToken
+  getImageByToken,
+  setBotStatusByImageId
 }

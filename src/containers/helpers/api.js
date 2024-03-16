@@ -2,7 +2,7 @@ const Docker = require('dockerode');
 const docker = new Docker();
 const { bots } = require('../../mock/bots');
 const { users } = require('../../mock/users');
-const { getImageByToken } = require('../../db/index');
+const { getImageByToken, setBotStatusByImageId } = require('../../db/index');
 
 // Función auxiliar para manejar errores
 const handleErrors = (res, errorMessage, statusCode = 500) => {
@@ -22,7 +22,7 @@ const getAllImages = async (req, res) => {
 // Obtener información sobre un contenedor específico
 const getContainerInfo = async (req, res) => {
   const token = req.headers['authorization'];
-  const image = getImageByToken({ token })
+  const image = await getImageByToken({ token })
   const imageStatus = image.dataValues.status
   try {
     res.json(imageStatus);
@@ -34,8 +34,8 @@ const getContainerInfo = async (req, res) => {
 // Iniciar un contenedor
 const startContainer = async (req, res) => {
   const token = req.headers['authorization'];
-  const userReq = users.find((user) => user.activeToken == token)
-  const imageId = userReq.bot
+  let imageId = await getImageByToken({ token })
+  imageId = imageId.dataValues.id
   try {
     const container = await docker.createContainer({
       Image: imageId,
@@ -46,16 +46,11 @@ const startContainer = async (req, res) => {
     const containerInfo = await container.inspect();
     const containerId = containerInfo.Id
 
-    // Simulación de busqueda en la base de datos
-    bots.forEach(bot => {
-      if (bot.id == imageId) {
-        bot.container = containerId;
-        bot.status = true;
-      }
-    });
+    await setBotStatusByImageId({ imageId, newContainer: containerId, newStatus: true })
 
     res.json({ message: 'Contenedor iniciado con éxito' });
   } catch (error) {
+    console.log(error)
     handleErrors(res, 'Error al iniciar el contenedor');
   }
 };
@@ -63,25 +58,19 @@ const startContainer = async (req, res) => {
 // Detener un contenedor
 const stopContainer = async (req, res) => {
   const token = req.headers['authorization'];
-  const userReq = users.find((user) => user.activeToken == token)
-  const imageId = userReq.bot
+  const image = await getImageByToken({ token })
+  const containerId = image.dataValues.containerId
 
-  const botToStop = bots.find((bot) => bot.id == imageId)
-  const containerId = botToStop.container
   try {
     const container = docker.getContainer(containerId);
     await container.kill();
 
     // Simulación de busqueda en la base de datos
-    bots.forEach(bot => {
-      if (bot.id == imageId) {
-        bot.container = null;
-        bot.status = false;
-      }
-    });
+    await setBotStatusByImageId({ imageId: image.dataValues.id, newContainer: null, newStatus: false })
 
     res.json({ message: 'Contenedor detenido con éxito' });
   } catch (error) {
+    console.log(error)
     handleErrors(res, 'Error al detener el contenedor');
   }
 };

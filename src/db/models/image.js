@@ -14,7 +14,7 @@ const Image = sequalize.define('image', {
   },
   containerId: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   status: {
     type: DataTypes.BOOLEAN,
