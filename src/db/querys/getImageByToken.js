@@ -9,7 +9,7 @@ const getImageByToken = async ({ token }) => {
       },
       include: [{
         model: Image,
-        attributes: ['status', 'id', 'containerId'],
+        attributes: ['status', 'id', 'containerId', 'port'],
         as: 'image'
       }]
     });

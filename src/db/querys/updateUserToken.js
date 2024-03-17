@@ -16,7 +16,6 @@ const updateUserToken = async ({ userId, newActiveToken }) => {
       activeToken: newActiveToken
     });
 
-    console.log(`Valor de activeToken actualizado para el usuario con ID ${userId}`);
   } catch (error) {
     console.error('Error al actualizar activeToken del usuario:', error);
     throw error;

@@ -32,12 +32,18 @@ const getContainerInfo = async (req, res) => {
 // Iniciar un contenedor
 const startContainer = async (req, res) => {
   const token = req.headers['authorization'];
-  let imageId = await getImageByToken({ token })
-  imageId = imageId.dataValues.id
+  const image = await getImageByToken({ token })
+  const imageId = image.dataValues.id
   try {
     const container = await docker.createContainer({
       Image: imageId,
       Tty: true,
+      ExposedPorts: { "3000/tcp": {} },
+      HostConfig: {
+        PortBindings: {
+          "3000/tcp": [{ "HostPort": image.dataValues.port.toString() }]
+        }
+      }
     });
 
     await container.start();

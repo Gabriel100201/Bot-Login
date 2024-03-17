@@ -19,6 +19,10 @@ const Image = sequalize.define('image', {
   status: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  port: {
+    type: DataTypes.NUMBER,
+    allowNull: false
   }
 },
   {

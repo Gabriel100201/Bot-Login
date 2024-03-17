@@ -5,12 +5,10 @@ const { userExist } = require('./querys/userExist');
 const { updateUserToken } = require('./querys/updateUserToken');
 const { getImageByToken } = require('./querys/getImageByToken');
 const { setBotStatusByImageId } = require('./querys/setBotStatusByImageId');
-
-/* const fn = async () => {
-  const image = await getImageByToken({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkc2FzZGFzZGEiLCJpYXQiOjE3MTA2MjY4MjcsImV4cCI6MTcxMDYzMDQyN30.FRpjMmvbKkVYBqr7wDhzYHKqnbsO08ejQ4FQSPSdkdw" })
-  console.log(image)
-}
-fn() */
+const { setBotStatusByContainerId } = require('./querys/setBotStatusByContainerId');
+const { setNewImage } = require('./querys/setNewImage');
+const { deleteImageById } = require('./querys/deleteImageById');
+const { getAvaiblePorts } = require('./querys/getAvaiblePorts');
 
 module.exports = {
   createUser,
@@ -19,5 +17,9 @@ module.exports = {
   getUserByName,
   updateUserToken,
   getImageByToken,
-  setBotStatusByImageId
+  setBotStatusByImageId,
+  setBotStatusByContainerId,
+  setNewImage,
+  deleteImageById,
+  getAvaiblePorts,
 }

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const {  getContainerInfo, startContainer, stopContainer, getAllImages } = require('./src/containers/helpers/api');
 const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
+const { syncDocker } = require('./src/sync');
 
 const app = express();
 app.use(cors());
@@ -26,5 +27,6 @@ app.post('/containers/start', startContainer);
 app.post('/containers/stop', stopContainer);
 
 app.listen(PORT, () => {
+  syncDocker()
   console.log(`Servidor en funcionamiento en http://localhost:${PORT}`);
 });

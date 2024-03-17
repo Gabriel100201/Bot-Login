@@ -1,13 +1,10 @@
-const { Op } = require('sequelize');
 const { Image } = require('../references/usersXimages');
 
-const setBotStatusByImageId = async ({ imageId, newContainer, newStatus }) => {
+const setBotStatusByContainerId = async ({ containerId, newContainer, newStatus }) => {
   try {
     const image = await Image.findOne({
       where: {
-        id: {
-          [Op.like]: `%${imageId}%`
-        }
+        containerId
       }
     });
 
@@ -26,4 +23,4 @@ const setBotStatusByImageId = async ({ imageId, newContainer, newStatus }) => {
   }
 }
 
-module.exports = { setBotStatusByImageId };
+module.exports = { setBotStatusByContainerId };
