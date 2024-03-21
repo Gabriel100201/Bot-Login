@@ -8,7 +8,6 @@ const { createNewUser } = require('./src/users/helpers/api');
 const { syncDocker } = require('./src/sync');
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
