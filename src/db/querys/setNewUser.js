@@ -15,9 +15,10 @@ const setNewUser = async ({ userName, password, imageId, company, rol }) => {
       company,
       rol
     });
-
+    return true
   } catch (error) {
-    console.error('Error al añadir una nueva imagen:', error);
+    console.error('Error al añadir un nuevo usuario:');
+    return false
   }
 }
 

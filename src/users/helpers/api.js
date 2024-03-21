@@ -9,8 +9,12 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 const createNewUser = async (req, res) => {
   const { userName, password, company, rol, imageId } = req.body
   try {
-    setNewUser({ userName, password, company, rol, imageId })
-    res.json("Usuario creado con éxito")
+    const userCreated = await setNewUser({ userName, password, company, rol, imageId });
+    if (userCreated) {
+      res.json("Usuario creado con éxito");
+    } else {
+      handleErrors(res, "Error al crear un nuevo usuario", 401);
+    }
   }
   catch {
     handleErrors(res, "Error al crear un nuevo usuario", 401)
