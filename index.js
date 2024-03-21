@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const {  getContainerInfo, startContainer, stopContainer, getAllImages } = require('./src/containers/helpers/api');
 const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
+const { createNewUser } = require('./src/users/helpers/api');
 const { syncDocker } = require('./src/sync');
 
 const app = express();
@@ -18,6 +19,9 @@ app.post('/verifyToken', verifyToken, verifyTokenUser);
 
 // Para todas estas consultas se hace uso del midleware
 app.use(verifyToken);
+
+// Users
+app.post('/createUser', createNewUser);
 
 // Containers
 app.get('/images', getAllImages);

@@ -18,11 +18,19 @@ const User = sequalize.define('user', {
   },
   activeToken: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   botAccess: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  company: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  rol: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 },
   {

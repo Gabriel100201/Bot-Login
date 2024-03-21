@@ -1,4 +1,3 @@
-const { createUser } = require('./querys/createUser');
 const { getUserByName } = require('./querys/getUserByName');
 const { getUsers } = require('./querys/getUsers');
 const { userExist } = require('./querys/userExist');
@@ -9,9 +8,10 @@ const { setBotStatusByContainerId } = require('./querys/setBotStatusByContainerI
 const { setNewImage } = require('./querys/setNewImage');
 const { deleteImageById } = require('./querys/deleteImageById');
 const { getAvaiblePorts } = require('./querys/getAvaiblePorts');
+const { setNewUser } = require('./querys/setNewUser');
 
 module.exports = {
-  createUser,
+  setNewUser,
   getUsers,
   userExist,
   getUserByName,
