@@ -13,7 +13,8 @@ const setNewUser = async ({ userName, password, imageId, company, rol }) => {
       activeToken: null,
       botAccess: imageId,
       company,
-      rol
+      rol,
+      status: 'active'
     });
     return true
   } catch (error) {

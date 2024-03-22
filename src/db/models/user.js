@@ -32,6 +32,10 @@ const User = sequalize.define('user', {
   rol: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true
   }
 },
   {

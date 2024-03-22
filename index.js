@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const {  getContainerInfo, startContainer, stopContainer, getAllImages } = require('./src/containers/helpers/api');
 const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
-const { createNewUser } = require('./src/users/helpers/api');
+const { createNewUser, getAllUsers } = require('./src/users/helpers/api');
 const { syncDocker } = require('./src/sync');
 
 const app = express();
@@ -27,9 +27,10 @@ app.use(verifyToken);
 
 // Users
 app.post('/createUser', createNewUser);
+app.post('/getUsers', getAllUsers)
 
 // Containers
-app.get('/images', getAllImages);
+app.post('/images', getAllImages);
 
 app.post('/containers/getInfo', getContainerInfo);
 app.post('/containers/start', startContainer);

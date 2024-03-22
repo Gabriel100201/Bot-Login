@@ -1,9 +1,14 @@
-const { User } = require('../references/usersXimages');
+const { User, Image } = require('../references/usersXimages');
 
 const getUsers = async () => {
   try {
     const users = await User.findAll({
-      attributes: ['userName']
+      attributes: ['id', 'userName', 'company', 'rol'],
+      include: [{
+        model: Image,
+        as: 'image',
+        attributes: ['name'],
+      }]
     });
     return users;
   } catch (error) {

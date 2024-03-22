@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { setNewUser } = require('../../db');
+const { setNewUser, getUsers } = require('../../db');
 
 const handleErrors = (res, errorMessage, statusCode = 500) => {
   console.log(errorMessage)
@@ -21,4 +21,24 @@ const createNewUser = async (req, res) => {
   }
 }
 
-module.exports = { createNewUser }
+const getAllUsers = async (req, res) => {
+  try {
+    let users = await getUsers();
+    if (users) {
+      users = users.map((user) => {
+        return (
+          user.dataValues
+        )
+      })
+      res.json(users)
+    }
+    else {
+      handleErrors(res, "Error al obtener todos los usuarios", 401)
+    }
+  }
+  catch {
+    handleErrors(res, "Error al obtener todos los usuarios", 401)
+  }
+}
+
+module.exports = { createNewUser, getAllUsers }
