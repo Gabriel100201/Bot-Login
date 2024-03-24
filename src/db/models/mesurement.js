@@ -17,7 +17,7 @@ const Measurement = sequalize.define('measurement', {
     allowNull: true
   },
   countConnected: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.NUMBER,
     allowNull: true
   },
   countBugs: {
