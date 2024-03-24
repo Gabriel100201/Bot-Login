@@ -9,6 +9,7 @@ const { setNewImage } = require('./querys/setNewImage');
 const { deleteImageById } = require('./querys/deleteImageById');
 const { getAvaiblePorts } = require('./querys/getAvaiblePorts');
 const { setNewUser } = require('./querys/setNewUser');
+const { getMeasurementByToken } = require('./querys/getMeasurementsByToken');
 
 module.exports = {
   setNewUser,
@@ -22,4 +23,5 @@ module.exports = {
   setNewImage,
   deleteImageById,
   getAvaiblePorts,
+  getMeasurementByToken
 }
