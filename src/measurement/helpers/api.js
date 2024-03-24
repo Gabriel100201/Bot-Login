@@ -8,7 +8,7 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 
 const getMeasures = async (req, res) => {
   try {
-    const { token } = req.body;
+    const token = req.headers['authorization'];
     const measueres = await getMeasurementByToken({ token })
     const measueresParsed = measueres.dataValues
     res.json(measueresParsed)
