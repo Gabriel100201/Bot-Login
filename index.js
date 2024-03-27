@@ -6,7 +6,7 @@ const {  getContainerInfo, startContainer, stopContainer, getAllImages } = requi
 const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
 const { createNewUser, getAllUsers } = require('./src/users/helpers/api');
 const { syncDocker } = require('./src/sync');
-const { getMeasures } = require('./src/measurement/helpers/api');
+const { getMeasures, setMeasures } = require('./src/measurement/helpers/api');
 
 const app = express();
 app.use(bodyParser.json())
@@ -32,6 +32,7 @@ app.post('/getUsers', getAllUsers)
 
 // Measures
 app.post('/getMeasures', getMeasures)
+app.post('/setMeasures', setMeasures)
 
 // Containers
 app.post('/images', getAllImages);

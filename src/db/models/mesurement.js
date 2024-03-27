@@ -29,7 +29,7 @@ const Measurement = sequalize.define('measurement', {
     allowNull: true
   },
   countCosts: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.FLOAT,
     allowNull: true
   }
 },

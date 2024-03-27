@@ -9,7 +9,13 @@ const syncImage = async (event, docker) => {
         const imageId = image.Id
         const imageArray = imageId.split(':');
         const id = imageArray[1];
-        const name = event.Actor.ID
+        let nameImage = event.Actor.ID;
+        let name = nameImage;
+        if (nameImage.includes("amazonaws.com/")) {
+          const nameArray = nameImage.split("amazonaws.com/");
+          name = nameArray[1];
+        }
+        console.log("Nueva imagen descargada: ", name)
         const port = await getAvaiblePorts()
         setNewImage({ id, name, containerId: null, status: 0, port })
       }

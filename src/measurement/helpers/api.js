@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { getMeasurementByToken } = require('../../db');
+const { updateMeasures } = require('../../db/querys/updateMeasures');
 
 const handleErrors = (res, errorMessage, statusCode = 500) => {
   console.log(errorMessage)
@@ -19,4 +20,15 @@ const getMeasures = async (req, res) => {
   }
 }
 
-module.exports = { getMeasures }
+const setMeasures = async (req, res) => {
+  try {
+    const { imageId, newClients, newConnecteds, newBugs, newMessages, newCosts } = req.body
+    updateMeasures({ imageId, newClients, newConnecteds, newBugs, newMessages, newCosts })
+  }
+  catch (err) {
+    console.log(err)
+    handleErrors(res, 'Error al obtener measures', 500);
+  }
+}
+
+module.exports = { getMeasures, setMeasures }

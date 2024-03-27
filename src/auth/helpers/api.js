@@ -13,25 +13,32 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   if (!userExist({ userName: username })) return handleErrors(res, 'Usuario no encontrado', 401);
-  let userInfo = await getUserByName({ userName: username })
-  userInfo = userInfo.dataValues
+  let userInfo = await getUserByName({ userName: username });
+  userInfo = userInfo.dataValues;
   
   try {
     const passwordMatch = await bcrypt.compare(password, userInfo.password);
 
     if (passwordMatch) {
-      const token = jwt.sign({ userId: userInfo.id, username: userInfo.username }, SECRET_KEY, { expiresIn: '1h' });
-      updateUserToken({ userId: userInfo.id, newActiveToken: token })
+      let options = {};
+
+      if (!userInfo.userName.startsWith('admin_')) {
+        options.expiresIn = '24h';
+      }
+
+      const token = jwt.sign({ userId: userInfo.id, username: userInfo.username }, SECRET_KEY, options);
+      updateUserToken({ userId: userInfo.id, newActiveToken: token });
 
       res.json({ message: 'Inicio de sesión exitoso', token, userInfo: { userName: userInfo.userName } });
     } else {
       handleErrors(res, 'Contraseña incorrecta', 401);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     handleErrors(res, 'Error al comparar contraseñas', 500);
   }
 };
+
 
 const verifyTokenUser = (req, res) => {
   res.json({ valid: true, user: req.user });
