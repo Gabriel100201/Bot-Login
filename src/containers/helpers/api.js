@@ -1,6 +1,6 @@
 const Docker = require('dockerode');
 const docker = new Docker();
-const { getImageByToken, setBotStatusByImageId } = require('../../db/index');
+const { getImageByToken, setBotStatusByImageId, getImages } = require('../../db/index');
 
 // Función auxiliar para manejar errores
 const handleErrors = (res, errorMessage, statusCode = 500) => {
@@ -10,7 +10,7 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 // Obtener la lista de todas las imagenes
 const getAllImages = async (req, res) => {
   try {
-    const images = await docker.listImages();
+    const images = await getImages();
     res.json(images);
   } catch (error) {
     handleErrors(res, 'Error al obtener la lista de contenedores');

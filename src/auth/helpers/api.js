@@ -11,8 +11,8 @@ const handleErrors = (res, errorMessage, statusCode = 500) => {
 
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
-
-  if (!userExist({ userName: username })) return handleErrors(res, 'Usuario no encontrado', 401);
+  const userFounded = await userExist({ userName: username })
+  if (!userFounded) return handleErrors(res, 'Usuario no encontrado', 404);
   let userInfo = await getUserByName({ userName: username });
   userInfo = userInfo.dataValues;
   

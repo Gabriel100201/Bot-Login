@@ -1,14 +1,11 @@
-const bcrypt = require('bcrypt');
+const { setNewUser } = require("./src/db");
 
 const fn = async () => {
-
-  const hash = bcrypt.hashSync("43280743", 1);
-  console.log(hash)
-  const hash2 = bcrypt.hashSync("43280743", 1);
-  console.log(hash2)
-
-  const isTrue = await bcrypt.compare("43280743", "$2b$04$i39zus4zGwGidN7QoHhTiu47aIPBUrJHnjyAYvIhk2BzUSisQi7X6")
-  console.log(isTrue)
-
+  try {
+    const userCreated = await setNewUser({ userName: "asdas", password: "sdasd", imageId: "2b590f7c476f6c429886339b3052628ffaa414175697a821fa46627171723418", company: "2312", rol: "23123" });
+  } catch (error) {
+    console.error('Error al crear un nuevo usuario:', error);
+  }
 }
+
 fn()

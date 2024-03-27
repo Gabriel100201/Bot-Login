@@ -18,8 +18,15 @@ const setNewUser = async ({ userName, password, imageId, company, rol }) => {
     });
     return true
   } catch (error) {
-    console.error('Error al añadir un nuevo usuario:', error);
-    return false
+    if (error.errors && error.errors[0]) {
+      throw { type: error.errors[0].validatorKey, value: "user" };
+    }
+    else if (error.name.toString() == "SequelizeForeignKeyConstraintError") {
+      throw { type: 'not_valid', value: 'image' }
+    }
+    else {
+      throw { type: 'generic_error', message: 'Error al añadir un nuevo usuario' };
+    }
   }
 }
 
