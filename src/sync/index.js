@@ -1,10 +1,12 @@
 const Docker = require('dockerode');
-const { syncContainer } = require('./containers');
+const { syncContainer, initSyncContainer } = require('./containers');
 const { syncImage } = require('./images');
+const { initSyncImage } = require('./images/initSync');
 
 const docker = new Docker();
 
 const syncDocker = () => {
+  initSyncImage(docker)
   console.log("[SYNC DATABASE WIRH DOCKER]")
 
   docker.getEvents((err, stream) => {

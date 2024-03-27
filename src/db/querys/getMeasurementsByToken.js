@@ -15,7 +15,6 @@ const getMeasurementByToken = async ({ token }) => {
       }]
     });
     const imageId = user.image.dataValues.id
-    console.log(imageId)
 
     const measueres = await Measurement.findOne({
       where: {

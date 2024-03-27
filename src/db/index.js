@@ -10,8 +10,10 @@ const { deleteImageById } = require('./querys/deleteImageById');
 const { getAvaiblePorts } = require('./querys/getAvaiblePorts');
 const { setNewUser } = require('./querys/setNewUser');
 const { getMeasurementByToken } = require('./querys/getMeasurementsByToken');
+const { getImages } = require('./querys/getImages');
 
 module.exports = {
+  getImages,
   setNewUser,
   getUsers,
   userExist,
