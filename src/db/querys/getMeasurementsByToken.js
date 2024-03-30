@@ -20,7 +20,7 @@ const getMeasurementByToken = async ({ token }) => {
       where: {
         imageId: imageId
       },
-      attributes: ['id', 'imageId', 'countClients', 'countConnected', 'countBugs', 'countMessages', 'countCosts']
+      attributes: ['id', 'imageId', 'countClients', 'countConnecteds', 'countBugs', 'countMessages', 'countCosts']
     })
     return measueres
   } catch (error) {

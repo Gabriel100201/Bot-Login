@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const {  getContainerInfo, startContainer, stopContainer, getAllImages } = require('./src/containers/helpers/api');
+const {  getContainerInfo, startContainer, stopContainer, getAllImages, getImageId } = require('./src/containers/helpers/api');
 const { verifyToken, verifyTokenUser, loginUser } = require('./src/auth/helpers/api');
 const { createNewUser, getAllUsers } = require('./src/users/helpers/api');
 const { syncDocker } = require('./src/sync');
@@ -36,6 +36,7 @@ app.post('/setMeasures', setMeasures)
 
 // Containers
 app.post('/images', getAllImages);
+app.post('/getImageByName', getImageId)
 
 app.post('/containers/getInfo', getContainerInfo);
 app.post('/containers/start', startContainer);

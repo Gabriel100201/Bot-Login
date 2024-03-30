@@ -16,7 +16,7 @@ const Measurement = sequalize.define('measurement', {
     type: DataTypes.NUMBER,
     allowNull: true
   },
-  countConnected: {
+  countConnecteds: {
     type: DataTypes.NUMBER,
     allowNull: true
   },

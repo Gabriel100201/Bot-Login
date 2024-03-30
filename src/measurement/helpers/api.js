@@ -22,8 +22,8 @@ const getMeasures = async (req, res) => {
 
 const setMeasures = async (req, res) => {
   try {
-    const { imageId, newClients, newConnecteds, newBugs, newMessages, newCosts } = req.body
-    updateMeasures({ imageId, newClients, newConnecteds, newBugs, newMessages, newCosts })
+    const { imageName, newClients, newConnecteds, newBugs, newMessages, newCosts } = req.body
+    updateMeasures({ imageName, newClients, newConnecteds, newBugs, newMessages, newCosts })
   }
   catch (err) {
     console.log(err)

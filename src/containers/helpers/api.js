@@ -17,6 +17,17 @@ const getAllImages = async (req, res) => {
   }
 };
 
+const getImageId = async (req, res) => {
+  const { name } = req.body
+  try {
+    const imageId = await getImageByName({ name });
+    res.json(imageId)
+  }
+  catch (err) {
+    handleErrors(res, 'Error al encontrar la imagen');
+  }
+}
+
 // Obtener información sobre un contenedor específico
 const getContainerInfo = async (req, res) => {
   const token = req.headers['authorization'];
@@ -79,4 +90,4 @@ const stopContainer = async (req, res) => {
   }
 };
 
-module.exports = { getContainerInfo, startContainer, stopContainer, getAllImages }
+module.exports = { getContainerInfo, startContainer, stopContainer, getAllImages, getImageId }
