@@ -6,7 +6,8 @@ const Measurement = sequalize.define('measurement', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   imageId: {
     type: DataTypes.STRING,
