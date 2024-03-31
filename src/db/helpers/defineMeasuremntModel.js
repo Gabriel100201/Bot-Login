@@ -35,7 +35,8 @@ const defineDynamicModel = (tableName) => {
       },
     },
       {
-        timestamps: false
+        timestamps: false,
+        freezeTableName: true
       });
   }
 };

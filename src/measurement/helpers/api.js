@@ -11,8 +11,7 @@ const getMeasures = async (req, res) => {
   try {
     const token = req.headers['authorization'];
     const measueres = await getMeasurementByToken({ token })
-    const measueresParsed = measueres.dataValues
-    res.json(measueresParsed)
+    res.json(measueres)
   }
   catch (err) {
     console.log(err)

@@ -49,7 +49,7 @@ const updateMeasures = async ({ imageName, newClients, newConnecteds, newBugs, n
         countCosts: updatedCosts
       });
     }
-
+    console.log(sequalize.models)
     let dailyMeasure = await sequalize.models[tableName].findOne({
       where: {
         date: today
