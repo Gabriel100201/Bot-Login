@@ -30,7 +30,7 @@ const defineDynamicModel = (tableName) => {
         allowNull: false
       },
       countCosts: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false
       },
     },
